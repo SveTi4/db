@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  php:
+    image: php:fpm
+    volumes:
+      - ./:/var/www/html
+    container_name: php
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - db  # добавляем зависимость от db
+    container_name: nginx
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: example_password
+      MYSQL_DATABASE: sample
+    ports:
+      - "3306:3306"
+    container_name: mysql
