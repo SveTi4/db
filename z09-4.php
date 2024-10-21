@@ -6,10 +6,10 @@
 <body>
     <h1>Lab3 Редактирование бд</h1>
     <p><a href="index.php">Lab1</a></p>
-    <p><a href="z09-1.php">Lab3 Создание бд</a></p>
-    <p><a href="z09-2.php">Lab3 Заполнение бд</a></p>
-    <p><a href="z09-3.php">Lab3 Вывод бд</a></p>
-    <p><a href="z09-4.php">Lab3 Редактирование бд</a></p>
+    <p><a href="z09-1.php">Lab7 Создание бд</a></p>
+    <p><a href="z09-2.php">Lab7 Заполнение бд</a></p>
+    <p><a href="z09-3.php">Lab7 Вывод бд</a></p>
+    <p><a href="z09-4.php">Lab7 Редактирование бд</a></p>
     <?php
     $mysqli = new mysqli('mysql', 'root', 'example_password', 'sample', 3306);
 
@@ -24,15 +24,27 @@
 
     // Если $id и $field_name заданы, выполняем обновление записи
     if ($id && $field_name && $field_value) {
-        // Обновляем значение поля
-        $stmt = $mysqli->prepare("UPDATE notebook_br04 SET $field_name = ? WHERE id = ?");
-        $stmt->bind_param("si", $field_value, $id);
-        if ($stmt->execute()) {
-            echo "Запись успешно обновлена.";
-        } else {
-            echo "Ошибка при обновлении записи: " . $stmt->error;
+        // Валидация данных
+        $is_valid = true;
+        if ($field_name === 'mail' && !filter_var($field_value, FILTER_VALIDATE_EMAIL)) {
+            echo "Некорректный email.";
+            $is_valid = false;
+        } elseif ($field_name === 'birthday' && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $field_value)) {
+            echo "Некорректный формат даты. Используйте YYYY-MM-DD.";
+            $is_valid = false;
         }
-        $stmt->close();
+
+        if ($is_valid) {
+            // Обновляем значение поля
+            $stmt = $mysqli->prepare("UPDATE notebook_br04 SET $field_name = ? WHERE id = ?");
+            $stmt->bind_param("si", $field_value, $id);
+            if ($stmt->execute()) {
+                echo "Запись успешно обновлена.";
+            } else {
+                echo "Ошибка при обновлении записи: " . $stmt->error;
+            }
+            $stmt->close();
+        }
     }
 
     // Получаем все записи из таблицы

@@ -1,8 +1,8 @@
-<a href="index.php">Lab1</a>
-<a href="z09-1.php">Lab3 Создание бд</a>
-<a href="z09-2.php">Lab3 Заполнение бд</a>
-<a href="z09-3.php">Lab3 Вывод бд</a>
-<a href="z09-4.php">Lab3 Редактирование бд</a>
+<p><a href="index.php">Lab5</a></p>
+<p><a href="z09-1.php">Lab7 Создание бд</a></p>
+<p><a href="z09-2.php">Lab7 Заполнение бд</a></p>
+<p><a href="z09-3.php">Lab7 Вывод бд</a></p>
+<p><a href="z09-4.php">Lab7 Редактирование бд</a></p>
 <?php
 $mysqli = new mysqli('mysql', 'root', 'example_password', 'sample', 3306);
 
