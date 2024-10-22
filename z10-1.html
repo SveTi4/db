@@ -1,31 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Выбор таблицы и отображение данных</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор таблицы</title>
 </head>
 <body>
-    <p></p><a href="index.php">Lab1</a></p>
-    <p></p><a href="z09-1.php">Lab3 Создание бд</a></p>
-    <p></p><a href="z09-2.php">Lab3 Заполнение бд</a></p>
-    <p></p><a href="z09-3.php">Lab3 Вывод бд</a></p>
-    <p></p><a href="z09-4.php">Lab3 Редактирование бд</a></p>
-    <p></p><a href="z10-1.html">Lab4</a></p>
-    <form action="z10-2.php" method="get">
-        <fieldset>
-            <legend>таблицы</legend>
-            <input type="checkbox" name="table" value="sal"> Продавцы (sal)<br>
-            <input type="checkbox" name="table" value="cust"> Покупатели (cust)<br>
-            <input type="checkbox" name="table" value="ord"> Заказы (ord)<br>
-        </fieldset>
-
-        <fieldset>
-            <legend>Отобразить</legend>
-            <input type="checkbox" name="structure" value="1"> структуру<br>
-            <input type="checkbox" name="content" value="1"> содержимое<br>
-        </fieldset>
-
-        <input type="submit" value="Вывести!">
-    </form>
+<form action="z10-2.php" method="get">
+    <h2>Таблицы</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Таблицы</th>
+            <th>Отобразить структуру</th>
+            <th>Отобразить содержимое</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Продавцы (sal)</td>
+            <td><input type="checkbox" name="structure[]" value="sal"></td>
+            <td><input type="checkbox" name="content[]" value="sal"></td>
+        </tr>
+        <tr>
+            <td>Покупатели (cust)</td>
+            <td><input type="checkbox" name="structure[]" value="cust"></td>
+            <td><input type="checkbox" name="content[]" value="cust"></td>
+        </tr>
+        <tr>
+            <td>Заказы (ord)</td>
+            <td><input type="checkbox" name="structure[]" value="ord"></td>
+            <td><input type="checkbox" name="content[]" value="ord"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <input type="submit" value="Вывести">
+</form>
 </body>
 </html>

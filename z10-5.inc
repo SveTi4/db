@@ -25,7 +25,6 @@ function vid_structure($table) {
 function vid_content($table) {
     global $mysqli;
 
-    // Ассоциативный массив русских названий
     $rus_name = [
         'snum' => 'Номер продавца',
         'sname' => 'Имя продавца',
@@ -41,15 +40,13 @@ function vid_content($table) {
         echo "<h4>Содержимое таблицы $table</h4>";
         echo "<table border='1'>";
 
-        // Отображаем заголовки на русском языке
         echo "<tr>";
         while ($field = $result->fetch_field()) {
             $field_name = $field->name;
-            echo "<th>" . (isset($rus_name[$field_name]) ? $rus_name[$field_name] : $field_name) . "</th>";
+            echo "<th>" . (isset($rus_name[$field_name]) ? $rus_name[$field_name] : $field_name) . "<br>" . $field_name . "</th>";
         }
         echo "</tr>";
 
-        // Отображаем содержимое таблицы
         while ($row = $result->fetch_assoc()) {
             echo "<tr>";
             foreach ($row as $value) {
@@ -63,17 +60,17 @@ function vid_content($table) {
     }
 }
 
-// Проверяем, заданы ли параметры
-if (isset($_GET['table'])) {
-    $table = $_GET['table'];
-    if (isset($_GET['structure'])) {
-        vid_structure($table);
-    }
-    if (isset($_GET['content'])) {
-        vid_content($table);
+if (isset($_GET['structure']) || isset($_GET['content'])) {
+    $tables = array_unique(array_merge($_GET['structure'] ?? [], $_GET['content'] ?? []));
+    foreach ($tables as $table) {
+        if (in_array($table, $_GET['structure'] ?? [])) {
+            vid_structure($table);
+        }
+        if (in_array($table, $_GET['content'] ?? [])) {
+            vid_content($table);
+        }
     }
 } else {
     echo "Не выбрана таблица.";
 }
 ?>
-
