@@ -1,5 +1,5 @@
 <?php
-$team_number = '04'; // Замените 'NN' на номер вашей команды
+$team_number = '04';
 $filename = "notebook_br$team_number.txt";
 
 // Выводим путь к файлу для отладки
@@ -18,7 +18,7 @@ echo '<table border="1" cellpadding="10">';
 
 // Обрабатываем каждую строку в массиве
 foreach ($file_array as $line) {
-    // Уд��ляем конечные символы "| \n"
+    // Удаляем конечные символы "| \n"
     $line = rtrim($line, " | \n");
 
     // Заменяем "|" на "</td><td>"

@@ -1,5 +1,5 @@
 <?php
-$team_number = '04'; // Replace 'NN' with your team number
+$team_number = '04';
 $filename = "notebook_br$team_number.txt";
 $table_name = "notebook_br$team_number";
 

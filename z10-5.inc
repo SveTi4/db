@@ -2,18 +2,32 @@
 function vid_structure($table) {
     global $mysqli;
 
-    $result = $mysqli->query("DESCRIBE $table");
+    $result = $mysqli->query("SELECT * FROM $table LIMIT 1"); // Выполняем запрос для получения структуры таблицы
     if ($result) {
         echo "<h4>Структура таблицы $table</h4>";
         echo "<table border='1'>";
-        echo "<tr><th>Поле</th><th>Тип</th><th>NULL</th><th>Ключ</th></tr>";
+        echo "<tr>
+                <th>Поле</th>
+                <th>Тип</th>
+                <th>NULL</th>
+                <th>PRIMARY KEY</th>
+                <th>UNIQUE</th>
+                <th>INDEX</th>
+                <th>UNSIGNED</th>
+                <th>AUTO_INCREMENT</th>
+              </tr>";
 
-        while ($row = $result->fetch_assoc()) {
+        while ($field = $result->fetch_field()) {
             echo "<tr>";
-            echo "<td>" . htmlspecialchars($row['Field']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['Type']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['Null']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['Key']) . "</td>";
+            echo "<td>" . htmlspecialchars($field->name) . "</td>";
+            echo "<td>" . htmlspecialchars($field->type) . "</td>";
+            // Проверяем наличие флагов и выводим их в отдельные колонки
+            echo "<td>" . (($field->flags & MYSQLI_NOT_NULL_FLAG) ? 'NO' : 'YES') . "</td>";
+            echo "<td>" . (($field->flags & MYSQLI_PRI_KEY_FLAG) ? 'YES' : 'NO') . "</td>";
+            echo "<td>" . (($field->flags & MYSQLI_UNIQUE_KEY_FLAG) ? 'YES' : 'NO') . "</td>";
+            echo "<td>" . (($field->flags & MYSQLI_MULTIPLE_KEY_FLAG) ? 'YES' : 'NO') . "</td>";
+            echo "<td>" . (($field->flags & MYSQLI_UNSIGNED_FLAG) ? 'YES' : 'NO') . "</td>";
+            echo "<td>" . (($field->flags & MYSQLI_AUTO_INCREMENT_FLAG) ? 'YES' : 'NO') . "</td>";
             echo "</tr>";
         }
         echo "</table>";
@@ -32,7 +46,6 @@ function vid_content($table) {
         'rating' => 'Рейтинг',
         'cnum' => 'Номер покупателя',
         'cname' => 'Имя покупателя',
-        // Добавьте остальные столбцы...
     ];
 
     $result = $mysqli->query("SELECT * FROM $table");
